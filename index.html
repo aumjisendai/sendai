@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>น้ำดื่มเซ็นได | คำนวณราคา</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;font-family:Arial,"Noto Sans Thai",sans-serif;
+  background:linear-gradient(180deg,#aeeaff 0%,#e9fbff 42%,#fff 100%);
+  color:#073b78;padding:max(14px,env(safe-area-inset-top,0px)) 12px max(30px,env(safe-area-inset-bottom,0px));
+}
+.wrap{max-width:520px;margin:auto}
+.header{
+  position:relative;text-align:center;padding:18px 12px 22px;
+  overflow:hidden;
+}
+.header:before,.header:after{
+  content:"💧";position:absolute;font-size:54px;opacity:.35;transform:rotate(-18deg)
+}
+.header:before{left:4px;top:15px}.header:after{right:8px;top:5px;transform:rotate(20deg)}
+.logo{font-size:15px;font-weight:900;color:#e51d3d;letter-spacing:1px}
+h1{margin:5px 0 2px;font-size:30px;font-weight:900;color:#064b91}
+.sub{font-size:14px;color:#17618f}
+.card{
+  background:rgba(255,255,255,.96);border:3px solid #43c5f2;
+  border-radius:26px;padding:19px 17px;margin-bottom:14px;
+  box-shadow:0 8px 25px rgba(0,105,170,.14)
+}
+.title{
+  font-size:20px;font-weight:900;margin-bottom:13px;color:#064b91;
+  display:flex;align-items:center;gap:8px
+}
+.product{
+  border:2px solid #c4eafa;border-radius:18px;padding:14px;margin:10px 0;
+  background:#f8fdff
+}
+.product h2{margin:0 0 10px;font-size:18px;color:#064b91}
+.row{display:flex;gap:10px;align-items:center}
+.price{font-size:13px;color:#58718a;line-height:1.6;flex:1}
+.price b{font-size:21px;color:#e91d3d}
+input{
+  width:120px;padding:12px;border:2px solid #93d9f5;border-radius:13px;
+  font-size:21px;font-weight:bold;text-align:center;color:#064b91;background:white;
+}
+input:focus{outline:none;border-color:#087fd2;box-shadow:0 0 0 3px #d9f4ff}
+.rule{
+  background:#fff7df;border:1px solid #ffd86a;border-radius:14px;
+  padding:11px 13px;font-size:13px;line-height:1.55;color:#614900;margin-top:12px
+}
+.result{
+  background:linear-gradient(135deg,#fff0f3,#fff);
+  border:2px solid #ff5067;border-radius:20px;padding:17px;text-align:center
+}
+.total-label{font-size:15px;font-weight:bold;color:#4d6070}
+.total{font-size:43px;font-weight:900;color:#e51d3d;margin:2px 0 7px}
+.detail{font-size:14px;line-height:1.75;color:#34536e}
+.badge{
+  display:inline-block;margin-top:9px;padding:6px 13px;border-radius:20px;
+  background:#0878d1;color:white;font-size:13px;font-weight:bold
+}
+.buttons{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:13px}
+button{
+  border:0;border-radius:15px;padding:14px 10px;font-size:16px;font-weight:900;cursor:pointer
+}
+.clear{background:#eaf6fb;color:#07558f}
+.line{background:#06c755;color:white;box-shadow:0 5px 13px rgba(0,190,80,.22);display:block;text-align:center;text-decoration:none;border-radius:15px;padding:14px 10px;font-size:16px;font-weight:900}
+.hint{display:none;margin-top:10px;font-size:13px;line-height:1.6;color:#34536e;background:#f1fbff;border:1px solid #c4eafa;border-radius:12px;padding:10px 12px}
+.hint a{color:#087fd2;font-weight:bold}
+.footer{text-align:center;font-size:12px;color:#658096;margin-top:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <div class="logo">SENDAI • เซ็นได</div>
+    <h1>💧 คำนวณราคาน้ำดื่ม</h1>
+    <div class="sub">กรอกจำนวนแพ็คที่ต้องการ ราคาคำนวณให้อัตโนมัติ</div>
+  </div>
+
+  <div class="card">
+    <div class="title">🛒 เลือกจำนวนสินค้า</div>
+
+    <div class="product">
+      <h2>💧 น้ำ 600 ml.</h2>
+      <div class="row">
+        <div class="price">ปกติ <b>26</b> บาท/แพ็ค<br>ราคาส่ง <b>25</b> บาท/แพ็ค</div>
+        <input id="q600" type="number" min="0" step="1" value="0">
+      </div>
+    </div>
+
+    <div class="product">
+      <h2>💧 น้ำ 1,500 ml.</h2>
+      <div class="row">
+        <div class="price">ปกติ <b>28</b> บาท/แพ็ค<br>ราคาส่ง <b>27</b> บาท/แพ็ค</div>
+        <input id="q1500" type="number" min="0" step="1" value="0">
+      </div>
+    </div>
+
+    <div class="rule">
+      🎉 <b>สั่งรวมครบ 4 แพ็คขึ้นไป</b> (คละขนาดได้)<br>
+      600 ml. = 25 บาท/แพ็ค &nbsp;•&nbsp; 1,500 ml. = 27 บาท/แพ็ค<br>
+      ถ้าไม่ถึง 4 แพ็ค ใช้ราคาปกติ
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="title">💰 สรุปยอด</div>
+    <div class="result">
+      <div class="total-label">ยอดรวมทั้งหมด</div>
+      <div class="total" id="total">0 บาท</div>
+      <div class="detail" id="detail">กรุณาระบุจำนวนแพ็ค</div>
+      <div class="badge" id="badge">ยังไม่ถึงขั้นต่ำ 4 แพ็ค</div>
+    </div>
+
+    <div class="buttons">
+      <button class="clear" id="btnClear">↺ ล้างจำนวน</button>
+      <a class="line" id="btnLine" href="https://line.me/R/oaMessage/%40369vxhcc/" target="_blank" rel="noopener">LINE 💬 สั่งซื้อ</a>
+    </div>
+    <div class="hint" id="hint">ถ้า LINE ไม่เด้งขึ้นมา ข้อความสั่งซื้อถูกคัดลอกไว้แล้ว<br>เปิดแชทร้านแล้วกดวางได้เลย: <a href="https://lin.ee/q1YOt3x" target="_blank" rel="noopener">เปิดแชท LINE ร้าน</a></div>
+    <div class="footer">น้ำดื่มเซ็นไดบรรจุขวด • สดชื่น สะอาด มั่นใจทุกวัน</div>
+  </div>
+</div>
+
+<script>
+/* ใส่ลิงก์ LINE Official Account ของร้านตรงนี้ก่อนนำไปใช้งานจริง */
+const LINE_URL = "https://lin.ee/q1YOt3x";
+const LINE_OA_ID = "@369vxhcc";
+
+function calc(){
+  const a=Math.max(0,parseInt(document.getElementById('q600').value)||0);
+  const b=Math.max(0,parseInt(document.getElementById('q1500').value)||0);
+  const n=a+b, discount=n>=4;
+  const p600=discount?25:26, p1500=discount?27:28;
+  const total=a*p600+b*p1500;
+
+  document.getElementById('total').textContent=total.toLocaleString('th-TH')+" บาท";
+  document.getElementById('detail').innerHTML=
+    `600 ml. ${a} แพ็ค × ${p600} = ${(a*p600).toLocaleString('th-TH')} บาท<br>`+
+    `1,500 ml. ${b} แพ็ค × ${p1500} = ${(b*p1500).toLocaleString('th-TH')} บาท<br>`+
+    `<b>รวม ${n} แพ็ค</b>`;
+
+  const badge=document.getElementById('badge');
+  if(typeof updateLineLink==='function') updateLineLink();
+  badge.textContent=discount ? "🎉 ได้ราคาส่งแล้ว!" :
+    `ยังไม่ถึงขั้นต่ำ 4 แพ็ค (ขาด ${4-n} แพ็ค)`;
+}
+
+function _noop(){}
+function clearAll(){
+  document.getElementById('q600').value=0;
+  document.getElementById('q1500').value=0;
+  calc();
+}
+
+function buildMsg(){
+  const a=Math.max(0,parseInt(document.getElementById('q600').value)||0);
+  const b=Math.max(0,parseInt(document.getElementById('q1500').value)||0);
+  const n=a+b;
+  if(n===0) return null;
+  const discount=n>=4, p600=discount?25:26, p1500=discount?27:28;
+  const total=a*p600+b*p1500;
+  const lines=["สวัสดีค่ะ ต้องการสั่งน้ำดื่มเซ็นได"];
+  if(a>0) lines.push("600 ml. "+a+" แพ็ค × "+p600+" = "+(a*p600)+" บาท");
+  if(b>0) lines.push("1,500 ml. "+b+" แพ็ค × "+p1500+" = "+(b*p1500)+" บาท");
+  lines.push("รวม "+n+" แพ็ค","ยอดรวม "+total+" บาท");
+  return lines.join("\n");
+}
+function updateLineLink(){
+  const msg=buildMsg();
+  const base="https://line.me/R/oaMessage/"+encodeURIComponent(LINE_OA_ID)+"/";
+  document.getElementById('btnLine').href = msg ? base+"?"+encodeURIComponent(msg) : base;
+}
+function onLineClick(e){
+  const msg=buildMsg();
+  if(!msg){e.preventDefault();alert("กรุณาระบุจำนวนแพ็คก่อนสั่งซื้อ");return;}
+  updateLineLink();
+  try{navigator.clipboard&&navigator.clipboard.writeText(msg);}catch(err){}
+  document.getElementById('hint').style.display='block';
+}
+document.getElementById('q600').addEventListener('input',calc);
+document.getElementById('q1500').addEventListener('input',calc);
+document.getElementById('btnClear').addEventListener('click',clearAll);
+document.getElementById('btnLine').addEventListener('click',onLineClick);
+calc();
+</script>
+</body>
+</html>
