@@ -161,7 +161,7 @@ function buildMsg(){
   if(n===0) return null;
   const discount=n>=4, p600=discount?25:26, p1500=discount?27:28;
   const total=a*p600+b*p1500;
-  const lines=["สวัสดีค่ะ ต้องการสั่งน้ำดื่มเซ็นได"];
+  const lines=["ต้องการสั่งน้ำดื่มเซ็นได"];
   if(a>0) lines.push("600 ml. "+a+" แพ็ค × "+p600+" = "+(a*p600)+" บาท");
   if(b>0) lines.push("1,500 ml. "+b+" แพ็ค × "+p1500+" = "+(b*p1500)+" บาท");
   lines.push("รวม "+n+" แพ็ค","ยอดรวม "+total+" บาท");
